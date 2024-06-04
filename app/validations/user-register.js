@@ -61,16 +61,7 @@ const userValidationSchema={
         trim:true,
         
     },
-    profilePic:{
-        exists:{
-            errorMessage:'profilePic is required'
-        },
-        notEmpty:{
-            errorMessage:'profilePic should not be empty'
-        },
-        trim:true,
-        
-    }
+
 }
 
 const userEditValidations={
@@ -119,16 +110,7 @@ const userEditValidations={
         trim:true,
         
     },
-    profilePic:{
-        exists:{
-            errorMessage:'profilePic is required'
-        },
-        notEmpty:{
-            errorMessage:'profilePic should not be empty'
-        },
-        trim:true,
-        
-    }
+    
 }
 
 module.exports={userValidationSchema,userEditValidations}

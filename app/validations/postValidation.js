@@ -18,14 +18,7 @@ const postValidation={
         },
         trim:true,
     },
-    img:{
-        exists:{
-            errorMessage:'img is required'
-        },
-        notEmpty:{
-            errorMessage:'img should not be empty'
-        },trim:true,
-    }
+   
 }
 
 const postEditValidation={
@@ -48,19 +41,8 @@ const postEditValidation={
         },
         trim:true,
     },
-    img:{
-        exists:{
-            errorMessage:'img is required'
-        },
-        notEmpty:{
-            errorMessage:'img should not be empty'
-        },trim:true,
-    }, 
-   post:{ 
-    isMongoId:{
-        errorMessage:'should be valid mongo id'
-    }
- }
+   
+   
 }
 
 

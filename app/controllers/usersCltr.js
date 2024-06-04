@@ -12,6 +12,7 @@ usersCltr.register=async(req,res)=>{
        return res.status(400).json({errors:errors.array()})
    }
    try{
+      
       const body=req.body
       const salt=await bcryptjs.genSalt()
       const hashPassword=await bcryptjs.hash(body.password,salt)
@@ -104,4 +105,21 @@ usersCltr.checkEmail=async(req,res)=>{
    }
 }
 
+
+usersCltr.uploadProfilePicture = async (req, res) => {
+   try {
+       const userId = req.user.id
+       let profilePicture = req.file.path 
+
+       profilePicture = profilePicture.replace(/\\/g, '/')
+       const user = await User.findByIdAndUpdate(userId, { profilePicture }, { new: true })
+       if (!user) {
+           return res.status(404).json({ error: 'User not found' })
+       }
+       res.status(200).json(user)
+   } catch (err) {
+       console.log(err)
+       res.status(500).json({ error: 'Something went wrong' })
+   }
+}
 module.exports=usersCltr

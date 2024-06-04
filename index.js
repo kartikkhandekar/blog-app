@@ -5,19 +5,23 @@ const {checkSchema}=require('express-validator')
 const userLoginValidations=require('./app/validations/user-login')
 const {userValidationSchema,userEditValidations}=require('./app/validations/user-register')
 const {postValidation,postEditValidation}=require('./app/validations/postValidation')
-const {commentValidations,commentEditValidation,idValidationSchema}=require('./app/validations/commentValidation')
+const {commentValidations,commentEditValidation}=require('./app/validations/commentValidation')
 const usersCltr=require('./app/controllers/usersCltr')
 const postCltr=require('./app/controllers/postCltr')
 const commentCltr=require('./app/controllers/commentCltr')
+const upload=require('./app/middlewares/multer')
 const authentication=require("./app/middlewares/authentication")
+const path = require('path')
 const cors=require('cors')
 const app= express()
 mongoose()
 app.use(express.json())
 app.use(cors())
-
+app.use(express.urlencoded({extended:false}))
+app.use('/uploads',express.static(path.join(__dirname,'uploads')))
 
 app.post('/api/users/register',checkSchema(userValidationSchema),usersCltr.register)
+app.post('/api/users/upload-profile-picture', upload.single('profilePicture'), usersCltr.uploadProfilePicture)
 app.post('/api/users/login',checkSchema(userLoginValidations),usersCltr.login)
 app.get('/api/users/profile',authentication,usersCltr.account)
 app.put('/api/users/profile',authentication,checkSchema(userEditValidations),usersCltr.update)
@@ -27,6 +31,7 @@ app.get('/api/posts',postCltr.posts)
 app.get('/api/posts/myPosts',authentication,postCltr.myPosts)
 app.get('/api/posts/:id',postCltr.single)
 app.post('/api/posts',authentication,checkSchema(postValidation),postCltr.create)
+app.post('/api/posts/:id/upload-post', authentication, upload.single('postPicture'), postCltr.uploadPostPicture);
 app.put('/api/posts/:id',authentication,checkSchema(postEditValidation),postCltr.update)
 app.delete('/api/posts/:id',authentication,postCltr.delete)
 
@@ -39,3 +44,8 @@ app.delete('/api/posts/:postId/comments/:commentId',authentication,commentCltr.d
 app.listen(process.env.PORT,()=>{
     console.log('connected to server ',5555)
 })
+
+
+
+
+

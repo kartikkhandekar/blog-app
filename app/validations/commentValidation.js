@@ -10,21 +10,7 @@ const commentValidations={
         },
         trim:true
     },
-    post:{
-        in:['params'],
-        custom: {
-            options: async function( value,{ req }){
-                const comment = await Comment.findOne({ post: req.params.postId, author: req.user.id })
-                if(comment) {
-                    throw new Error('You have already commented this post')
-                }
-                return true 
-            }
-        }
-    },
-    isMongoId:{
-        errorMessage:'should be valid mongo id'
-    },
+   
 }
 
 const commentEditValidation={
@@ -37,11 +23,7 @@ const commentEditValidation={
         errorMessage:'content cannot be empty'
     }
   },
-  post:{
-  isMongoId:{
-    errorMessage:'should be valid mongo id'
-  }
- }
+ 
 }
 
 const idValidationSchema={
